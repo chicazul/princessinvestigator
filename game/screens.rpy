@@ -2,6 +2,57 @@
 # for your own screens.
 
 ##############################################################################
+# Dossier
+#
+# Screen to display princess information dossier
+#
+screen dossier(princess=0):
+    window:
+        background Solid("#000000")
+        frame:
+            xsize 0.4
+            xpadding 20
+            ypadding 20
+            bottom_margin 40
+            text "Image goes here"
+            #show image
+        frame:
+            xpos 0.4
+            xfill 1
+            yfill 1
+            xpadding 20
+            ypadding 20
+            bottom_margin 40
+            has vbox
+            if princess:
+                vbox:
+                    text "{size=+10}Princess [princess[name]]{/size}"
+                    text "{size=+8}of [princess[kingdom]]{/size}"
+                vbox:
+                    text "Age: [princess[age]]"
+                    text "Shoe Size: [princess[shoesize]]"
+                    text "Birthstone: [princess[birthstone]]"
+                    text "Family Colours: [princess[colours]]"
+                    text "Favourite Cupcake: [princess[cupcake]]"
+        frame:
+            yalign 1.0
+            xalign 1.0
+            has hbox
+            textbutton _("Interview") action Return(value="interview")
+            textbutton _("Search Luggage") action Return(value="xray")
+            textbutton _("Accuse") action Return(value="accuse")
+            textbutton _("Continue") action Return(value=1)
+    
+screen xray:
+    frame:
+        background Solid("#000000")
+        yalign 1.0
+        xalign 1.0
+        has hbox
+        textbutton _("Accuse") action Return(value="accuse")
+        textbutton _("Continue") action Return()
+        
+##############################################################################
 # Say
 #
 # Screen that's used to display adv-mode dialogue.
