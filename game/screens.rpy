@@ -7,15 +7,16 @@
 # Screen to display princess information dossier
 #
 screen dossier(princess=0):
-    window:
+    frame:
         background Solid("#000000")
         frame:
             xsize 0.4
             xpadding 20
             ypadding 20
             bottom_margin 40
-            text "Image goes here"
-            #show image
+            #$renpy.show("[princess[image]] cropped" at left
+            #$ renpy.show(princess['image']+" cropped",[left],"screens",None,4)
+            add princess['image']+" cropped" at left
         frame:
             xpos 0.4
             xfill 1
@@ -46,12 +47,42 @@ screen dossier(princess=0):
 screen xray:
     frame:
         background Solid("#000000")
+        
         yalign 1.0
         xalign 1.0
         has hbox
         textbutton _("Accuse") action Return(value="accuse")
         textbutton _("Continue") action Return()
-        
+
+screen evidence:
+    frame:
+        background Solid("#000")
+        yalign 1.0
+        xalign 1.0
+        has hbox
+        textbutton _("Continue") action Return()
+##############################################################################
+# Countdown
+#
+# Overlay screen for countdown clock
+transform alpha_dissolve:
+    alpha 0.0
+    linear 0.5 alpha 1.0
+    on hide:
+        linear 0.5 alpha 0
+    # This is to fade the bar in and out, and is only required once in your script
+
+screen countdown:
+    zorder 5
+    timer 0.01 repeat True action If(time > 0, true=SetVariable('time', time - 0.01), false=[Hide('countdown'), Jump(timer_jump)])
+    bar value time range timer_range xalign 0.5 yalign 0.9 xmaximum 300 at alpha_dissolve # This is the timer bar.
+##############################################################################
+# Countdown
+#
+# Overlay screen for countdown clock
+screen annoyance_meter:
+    frame:
+        bar
 ##############################################################################
 # Say
 #

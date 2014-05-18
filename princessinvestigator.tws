@@ -24,8 +24,8 @@ I00
 sS'pos'
 p13
 (lp14
-I10
-aI9
+F9.166666666666666
+aF8.166666666666666
 asS'passage'
 p15
 (itiddlywiki
@@ -34,7 +34,7 @@ p16
 (dp18
 S'text'
 p19
-VCoronation Day dawns bright and clear. Everything is in order for the crowning of Princess Kathleen of Romania.\u000a\u000aBut wait! A messenger has just arrived, bearing news that one of the visiting princesses is an assassin in disguise!\u000a\u000aIt's up to you, the captain of the guard, to identify the nefarious noble before the ceremony.\u000a\u000aCareful not to offend an innocent princess though--if you set off a diplomatic incident it may be your head on the chopping block\u000a
+VCoronation Day dawns bright and clear. Everything is in order for the crowning of Princess Kathleen of Romania.\u000a\u000aBut wait! A messenger has just arrived, bearing news that one of the visiting princesses is an assassin in disguise!\u000a\u000aIt's up to you, the captain of the guard, to identify the nefarious noble before the ceremony.\u000a\u000aCareful not to offend an innocent princess though--if you set off a diplomatic incident it may be your head on the chopping block\u000a\u000a[[Interview first princess]]
 p20
 sS'title'
 p21
@@ -48,9 +48,9 @@ p24
 ((I2014
 I5
 I17
-I10
-I49
-I53
+I20
+I20
+I27
 I5
 I137
 I1
@@ -140,19 +140,19 @@ Tiddler
 p53
 (dp54
 g19
-S'Anonymous'
+VSara Chicazul
 p55
 sg21
-S'StoryAuthor'
+VStoryAuthor
 p56
 sg23
 g24
 ((I2014
 I5
 I17
-I9
-I41
-I37
+I20
+I19
+I48
 I5
 I137
 I1
@@ -163,25 +163,38 @@ Rp60
 sg29
 (lp61
 sg31
-g60
-sbsa(dp62
+g24
+((I2014
+I5
+I17
+I9
+I41
+I37
+I5
+I137
+I1
+tp62
+(dp63
+tp64
+Rp65
+sbsa(dp66
 g12
-I01
+I00
 sg13
-(lp63
+(lp67
 F262.0
 aF10.0
 asg15
 (itiddlywiki
 Tiddler
-p64
-(dp65
+p68
+(dp69
 g19
 V
-p66
+p70
 sg21
 VAdelaide Start
-p67
+p71
 sg23
 g24
 ((I2014
@@ -193,12 +206,12 @@ I18
 I5
 I137
 I1
-tp68
-(dp69
-tp70
-Rp71
+tp72
+(dp73
+tp74
+Rp75
 sg29
-(lp72
+(lp76
 sg31
 g24
 ((I2014
@@ -210,14 +223,116 @@ I28
 I5
 I137
 I1
-tp73
-(dp74
-tp75
-Rp76
+tp77
+(dp78
+tp79
+Rp80
+sbsa(dp81
+g12
+I01
+sg13
+(lp82
+F262.0
+aF149.0
+asg15
+(itiddlywiki
+Tiddler
+p83
+(dp84
+g19
+Vp "What is the meaning of this?"\u000ap "You don't seriously suspect ME of any wrongdoing?"\u000a\u000a"This is just a matter of routine, Your Highness"\u000amenu:\u000a	"Are you on good terms with Princess Kathleen?"\u000a	"Have you ever seen this [evidence] before?"\u000a	"What is your shoe size?"\u000a	"How old are you?"\u000a	"In a formal table setting, which side of the plate would a soup spoon be?"\u000a	"\u000a	"Why did you lie about your shoe size?":\u000a		jump [[lieshoe]]
+p85
+sg21
+VInterview first princess
+p86
+sg23
+g24
+((I2014
+I5
+I17
+I21
+I11
+I1
+I5
+I137
+I1
+tp87
+(dp88
+tp89
+Rp90
+sg29
+(lp91
+Vbarbarian
+p92
+asg31
+g24
+((I2014
+I5
+I17
+I20
+I20
+I27
+I5
+I137
+I1
+tp93
+(dp94
+tp95
+Rp96
+sbsa(dp97
+g12
+I00
+sg13
+(lp98
+F398.0
+aF38.0
+asg15
+(itiddlywiki
+Tiddler
+p99
+(dp100
+g19
+Vp "I-I don't know what you're talking about."
+p101
+sg21
+Vlieshoe
+p102
+sg23
+g24
+((I2014
+I5
+I17
+I20
+I46
+I48
+I5
+I137
+I1
+tp103
+(dp104
+tp105
+Rp106
+sg29
+(lp107
+sg31
+g24
+((I2014
+I5
+I17
+I20
+I45
+I59
+I5
+I137
+I1
+tp108
+(dp109
+tp110
+Rp111
 sbsasS'scale'
-p77
+p112
 F1.2
 sS'snapping'
-p78
+p113
 I00
 ss.
