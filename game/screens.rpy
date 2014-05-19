@@ -8,7 +8,6 @@
 #
 screen dossier(princess=0):
     frame:
-        background Solid("#000000")
         frame:
             xsize 0.4
             xpadding 20
@@ -45,9 +44,8 @@ screen dossier(princess=0):
             textbutton _("Continue") action Return(value=1)
     
 screen xray:
+    add "xray machine"
     frame:
-        background Solid("#000000")
-        
         yalign 1.0
         xalign 1.0
         has hbox
@@ -56,7 +54,6 @@ screen xray:
 
 screen evidence:
     frame:
-        background Solid("#000")
         yalign 1.0
         xalign 1.0
         has hbox
@@ -74,15 +71,24 @@ transform alpha_dissolve:
 
 screen countdown:
     zorder 5
-    timer 0.01 repeat True action If(time > 0, true=SetVariable('time', time - 0.01), false=[Hide('countdown'), Jump(timer_jump)])
+    timer 0.01 repeat True action If(time > 0, true=SetVariable('time', time - 0.01), false=[SetVariable('failure','time'),Hide('countdown'), Jump(timer_jump)])
     bar value time range timer_range xalign 0.5 yalign 0.9 xmaximum 300 at alpha_dissolve # This is the timer bar.
 ##############################################################################
-# Countdown
+# Annoyance meter
 #
-# Overlay screen for countdown clock
+# Overlay screen for princess annoyance meter
 screen annoyance_meter:
+    zorder 5
+    # princesses get annoyed the longer you spend questioning them
+    timer 1 repeat True action If(princess['annoyance'] < annoyance_range, true=SetDict(princess,'annoyance', princess['annoyance'] + 0.05), false=[SetVariable('failure','diplomacy'),Hide('annoyance_meter'), Jump(annoyance_jump)])
     frame:
-        bar
+        has vbox
+        label _("Annoyance")
+        bar value princess['annoyance'] range annoyance_range xmaximum 300 at alpha_dissolve
+        
+screen assassination_meter:
+    timer 0.01 repeat True action If(assassin > 0, true=SetVariable('assassin', assassin - 0.01), false=[SetVariable('failure','assassin'),Hide('assassination_meter'),Jump('fail')])
+    
 ##############################################################################
 # Say
 #
