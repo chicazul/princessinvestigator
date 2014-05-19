@@ -71,7 +71,7 @@ init -1 python hide:
         ## The background of the main menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
-        mm_root = "#1A140E",
+        mm_root = "images/intro.png",
 
         ## The background of the game menu. This can be a color
         ## beginning with '#', or an image filename. The latter
@@ -187,7 +187,7 @@ init -1 python hide:
 
     ## Music that is played while the user is at the main menu.
 
-    # config.main_menu_music = "main_menu_theme.ogg"
+    # config.main_menu_music = "music/Main Princess Theme.mp3"
 
 
     #########################################
@@ -287,4 +287,4 @@ init -1 python hide:
     #########################################
     ## More customizations can go here.
     
-    config.layers = [ 'master', 'transient', 'xray', 'screens', 'overlay' ]
+    config.layers = [ 'hidden', 'master', 'xray', 'transient', 'screens', 'overlay' ]

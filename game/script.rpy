@@ -34,6 +34,10 @@ image bars = "images/bars.png"
 image bg interview = "images/bg-interview.png"
 image bg dungeon = "images/bg-dungeon.png"
 image bg xray = "images/xray-bg.png"
+image bg shoe = "images/shoe.png"
+image fail flask = "images/failure-flask.png"
+image fail book = "images/failure-book.png"
+
 image xray machine = "images/xray-machine.png"
 image luggage bookish = "images/luggage-bookish.png"
 image luggage bookish xray = "images/luggage-bookish-inner.png"
@@ -161,6 +165,16 @@ image gun guilt = "images/item-gun-guilty.png"
 define current = 0
 define p = Character("'Princess '+princesses[current]['name']",dynamic=True)
 
+init:
+    transform luggage_placement(x,y):
+        xoffset x
+        yoffset y
+    
+    transform luggage_scroll:
+        xpos -0.75
+        yalign 0.5
+        linear 25.0 xpos 1.5
+        
 label start:
     $ time = 120
     $ timer_range = 120
@@ -169,43 +183,26 @@ label start:
     $ assassin_range = assassin
     call initialize_princesses
     
-    scene bg xray
-    show xray machine
-    show luggage bookish xray behind xray
-    #show bear xray:
-    #    xpos 0.25
-    #    ypos 0.35
-    #show gun xray:
-    #    xpos 0.4
-    #    ypos 0.25
-    #show necklace xray:
-    #    xpos 0.5
-    #    ypos 0.4
-    python:
-        items = []
-        for item in princess['luggage']:
-           renpy.show(item+" xray",[truecenter])
-    "Look at the xray!"
-    show bear guilt
-    show gun
-    show necklace
-    pause
+    #insert code for testing here
     jump intro
     return
 
 label initialize_princesses:
     python:
+        suspicious = []
         for princess in princesses:
             princess['annoyance'] = 0
             princess['shoesize'] = renpy.random.randint(4,11)
-            princess['guilty'] = False
+            princess['guilty'] = ''
             luggage = set()
-            luggage.add(weapons[renpy.random.randint(0,3)])
+            weapon = weapons[renpy.random.randint(0,3)]
+            luggage.add(weapon)
+            suspicious.append(weapon)
             while len(luggage) < 6:
                 luggage.add(items[renpy.random.randint(0,8)])
             princess['luggage'] = luggage
         guilty = renpy.random.randint(0,3)
-        princesses[guilty]['guilty'] = True
+        princesses[guilty]['guilty'] = suspicious[guilty]
         
     return
     
@@ -235,6 +232,7 @@ label evidence:
     
 label intro:
     centered "Coronation Day dawns bright and clear. Everything is in order for the crowning of Princess Kathleen of Romania."
+    scene bg shoe
     centered "But wait! A messenger has just arrived, bearing news that one of the visiting princesses is an assassin in disguise! Princess Kathleen's life is in danger!"
     centered "It's up to you, the captain of the guard, to identify the nefarious noble before the ceremony."
     centered "Careful not to offend an innocent princess though--if you set off a diplomatic incident it may be your head on the chopping block."
@@ -268,39 +266,98 @@ label xray:
         crop(190,100,400,310)
         xpos 190
         ypos 100
-    show luggage bookish:
-        xpos -0.75
-        yalign 0.5
-        linear 25.0 xpos 1.5
-    show luggage bookish xray onlayer xray:
-        xpos -0.75
-        yalign 0.5
-        linear 25.0 xpos 1.5
+    show luggage bookish at luggage_scroll
+    show luggage bookish xray at luggage_scroll onlayer xray
+    python:
+        x,y,width,height = 210,-90,360,265 #Initial x,y offset to make up for drawing onto moving luggage
+        xcenter = x + (width / 2)
+        xright = x + width
+        ybottom = y + height
+        positions = ['topleft','topcenter','topright','bottomleft','bottomcenter','bottomright']
+        i = 0
+        for item in princess['luggage']:
+            renpy.show(item,[luggage_placement(x,y)],layer='hidden')
+            ix,iy,iw,ih = renpy.get_image_bounds(item,layer='hidden')
+            nx,ny = x,y
+            if 'center' in positions[i]:
+                nx = int(xcenter - (iw/2))
+            if 'right' in positions[i]:
+                nx = int(xright - iw)
+            if 'bottom' in positions[i]:
+                ny = int(ybottom - ih)
+            renpy.hide(item,layer='hidden')
+            renpy.show(item+" xray",[luggage_scroll, luggage_placement(nx,ny)],layer='xray')
+            i += 1
+            if i > 5:
+                i = 0
     call screen xray
-    hide luggage bookish xray onlayer xray
+    scene onlayer xray
     if _return == "accuse":
         call expression "accuse" pass (location="xray")
     return
 
-label accuse(location="dossier"):
-    scene
-    $ accusation = "You're lying!"
-    if location == "dossier":
-        scene black
+label accuse(location="blank"):
+    if location == "dossier" or location == "interview":
+        scene bg interview
+        if princess['annoyance'] > 30:
+            $ mood = "annoyed"
+        else:
+            $ mood = ""
+        show expression princess['image']+" animated "+mood as princessimage
     elif location == "xray":
+        scene onlayer xray
         scene bg xray
         show xray machine
         show luggage bookish xray behind xray
-        $ accusation = "I see a murder weapon!"
+        python:
+            x,y,width,height = 225,140,360,265 #Initial x,y offset to make up for drawing onto moving luggage
+            xcenter = x + (width / 2)
+            xright = x + width
+            ybottom = y + height
+            positions = ['topleft','topcenter','topright','bottomleft','bottomcenter','bottomright']
+            i = 0
+            for item in princess['luggage']:
+                renpy.show(item,[luggage_placement(x,y)],layer='hidden')
+                ix,iy,iw,ih = renpy.get_image_bounds(item,layer='hidden')
+                nx,ny = x,y
+                if 'center' in positions[i]:
+                    nx = int(xcenter - (iw/2))
+                if 'right' in positions[i]:
+                    nx = int(xright - iw)
+                if 'bottom' in positions[i]:
+                    ny = int(ybottom - ih)
+                renpy.hide(item,layer='hidden')
+                renpy.show(item+" xray",[luggage_placement(nx,ny)])
+                i += 1
+                if i > 5:
+                    i = 0
+    else:
         $ location = "dossier"
-    elif location == "interview":
-        scene bg interview
-        show expression princess['image']+" animated "+mood as princessimage
     menu:
-        "[accusation]":
-            jump success
+        "I see the murder weapon!" if location == "xray":
+            python:
+                for item in princess['luggage']:
+                    type = ''
+                    #renpy.say(narrator,"[item] [princess[guilty]]")
+                    if item == princess['guilty']:
+                        type = " guilt"
+                    ix,iy,iw,ih = renpy.get_image_bounds(item,layer='master')
+                    renpy.show(item+type,[luggage_placement(ix,iy)])
+                if princess['guilty'] == '':
+                    princess['annoyance'] += 50
+                location = "dossier"
+            menu:
+                "You are planning to kill Princess Kathleen!":
+                    if princess['guilty'] != '':
+                        jump success
+                    else:
+                        $ princess['annoyance'] += 50
+                "Never mind.":
+                    pass
+        "You're lying!" if location == "interview":
+            pass
         "You are planning to kill Princess Kathleen!":
-            if princess['guilty']:
+            if princess['guilty'] != '':
                 jump success
             else:
                 $ princess['annoyance'] += 50
@@ -316,6 +373,7 @@ label lastchance:
     jump dossier
 
 label success:
+    play music "music/Princess Fanfare.mp3"
     hide screen annoyance_meter
     hide screen countdown
     scene bg dungeon
