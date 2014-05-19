@@ -1,11 +1,11 @@
 ﻿# You can place the script of your game in this file.
 
 init python:
-    stats = ['name','kingdom','image','age','shoesize','birthstone','colours','cupcake','guilty','annoyance']
-    p1 = ['Adelaide', 'Mauritania','bookish', '23', '7','Topaz','Teal and Silver','Red Velvet',False,0]
-    p2 = ['Terabith', 'Rembel','faun', '17','5','Bone','Grey and Royal Blue','Angel Food',True,0]
-    p3 = ['Nachelm', 'Ghreowold','warrior', '28','8.5','Granite','Amber and Red','Honey Almond',False,0]
-    p4 = ['Oorit', 'Isiba','mecha', '38','6.5','Celadon','Pink and Gold','Carrot',False,0]
+    stats = ['name','kingdom','image','age','shoesize','birthstone','colours','cupcake','guilty','annoyance','luggage']
+    p1 = ['Adelaide', 'Mauritania','bookish', '23', '7','Topaz','Teal and Silver','Red Velvet',False,0,0]
+    p2 = ['Terabith', 'Rembel','faun', '17','5','Bone','Grey and Royal Blue','Angel Food',True,0,0]
+    p3 = ['Nachelm', 'Ghreowold','warrior', '28','8.5','Granite','Amber and Red','Honey Almond',False,0,0]
+    p4 = ['Oorit', 'Isiba','mecha', '38','6.5','Celadon','Pink and Gold','Carrot',False,0,0]
     
     princesses = []
     princess = {}
@@ -13,6 +13,9 @@ init python:
     princesses.append(dict(zip(stats,p2)))
     princesses.append(dict(zip(stats,p3)))
     princesses.append(dict(zip(stats,p4)))
+    
+    weapons = ['bear','book','gun','flask']
+    items = ['bear','book','bra','comb','flask','gun','necklace','racket','shoe']
     
     timer_range = 0
     timer_jump = 'fail'
@@ -27,7 +30,10 @@ init python:
 
 # Declare images below this line, using the image statement.
 image black = Solid("#000000")
-image xray bg = "images/xray-bg.png"
+image bars = "images/bars.png"
+image bg interview = "images/bg-interview.png"
+image bg dungeon = "images/bg-dungeon.png"
+image bg xray = "images/xray-bg.png"
 image xray machine = "images/xray-machine.png"
 image luggage bookish = "images/luggage-bookish.png"
 image luggage bookish xray = "images/luggage-bookish-inner.png"
@@ -127,9 +133,33 @@ image mecha animated annoyed:
     pause 0.1
     repeat
 
+image bear = "images/item-bear-innocent.png"
+image book = "images/item-book-innocent.png"
+image bra = "images/item-bra-innocent.png"
+image comb = "images/item-comb-innocent.png"
+image flask = "images/item-flask-innocent.png"
+image gun = "images/item-gun-innocent.png"
+image necklace = "images/item-necklace-innocent.png"
+image racket = "images/item-racket-innocent.png"
+image shoe = "images/item-shoe-innocent.png"
+image bear xray = "images/item-bear-sil.png"
+image book xray = "images/item-book-sil.png"
+image bra xray = "images/item-bra-sil.png"
+image comb xray = "images/item-comb-sil.png"
+image flask xray = "images/item-flask-sil.png"
+image gun xray = "images/item-gun-sil.png"
+image necklace xray = "images/item-necklace-sil.png"
+image racket xray = "images/item-racket-sil.png"
+image shoe xray = "images/item-shoe-sil.png"
+image bear guilt = "images/item-bear-guilty.png"
+image book guilt = "images/item-book-guilty.png"
+image flask guilt = "images/item-flask-guilty.png"
+image gun guilt = "images/item-gun-guilty.png"
+
+    
 # Declare characters used by this game.
-define a = Character('Princess Adelaide')
-define processedcount = 0
+define current = 0
+define p = Character("'Princess '+princesses[current]['name']",dynamic=True)
 
 label start:
     $ time = 120
@@ -137,27 +167,68 @@ label start:
     $ annoyance_range = 60
     $ assassin = renpy.random.randint(10,60)
     $ assassin_range = assassin
+    call initialize_princesses
+    
+    scene bg xray
+    show xray machine
+    show luggage bookish xray behind xray
+    #show bear xray:
+    #    xpos 0.25
+    #    ypos 0.35
+    #show gun xray:
+    #    xpos 0.4
+    #    ypos 0.25
+    #show necklace xray:
+    #    xpos 0.5
+    #    ypos 0.4
+    python:
+        items = []
+        for item in princess['luggage']:
+           renpy.show(item+" xray",[truecenter])
+    "Look at the xray!"
+    show bear guilt
+    show gun
+    show necklace
+    pause
     jump intro
+    return
+
+label initialize_princesses:
+    python:
+        for princess in princesses:
+            princess['annoyance'] = 0
+            princess['shoesize'] = renpy.random.randint(4,11)
+            princess['guilty'] = False
+            luggage = set()
+            luggage.add(weapons[renpy.random.randint(0,3)])
+            while len(luggage) < 6:
+                luggage.add(items[renpy.random.randint(0,8)])
+            princess['luggage'] = luggage
+        guilty = renpy.random.randint(0,3)
+        princesses[guilty]['guilty'] = True
+        
     return
     
 label dossier:
-    scene
+    scene black
     play music "music/Main Princess Theme.mp3"
     show screen annoyance_meter
-    while processedcount < len(princesses):
-        $ princess = princesses[processedcount]
+    while current < len(princesses):
+        $ princess = princesses[current]
+        
         call screen dossier(princess)
         if (_return == "interview") | (_return == "xray")|(_return == "accuse"):
             call expression _return
+            scene black
             if gameover:
                 jump ending
         elif _return == 1:
             if princess['guilty'] == True:
                 show screen assassination_meter
-            $ processedcount += 1
+            $ current += 1
     hide screen annoyance_meter
     jump lastchance
-
+    
 label evidence:
     call screen evidence
     jump investigate
@@ -180,16 +251,19 @@ label investigate:
     return
     
 label interview:
+    scene bg interview
     if princess['annoyance'] > 30:
         $ mood = "annoyed"
+    else:
+        $ mood = ""
     show expression princess['image']+" animated "+mood as princessimage
-    a "Why are you asking me this?"
+    p "Why are you asking me this?"
     hide princessimage
-    jump dossier
+    return
     
 label xray:
     play music "music/Princess Beats.mp3"
-    scene xray bg
+    scene bg xray
     show layer xray:
         crop(190,100,400,310)
         xpos 190
@@ -206,29 +280,48 @@ label xray:
     hide luggage bookish xray onlayer xray
     if _return == "accuse":
         call expression "accuse" pass (location="xray")
-    else:
-        jump dossier
+    return
 
 label accuse(location="dossier"):
+    scene
+    $ accusation = "You're lying!"
+    if location == "dossier":
+        scene black
+    elif location == "xray":
+        scene bg xray
+        show xray machine
+        show luggage bookish xray behind xray
+        $ accusation = "I see a murder weapon!"
+        $ location = "dossier"
+    elif location == "interview":
+        scene bg interview
+        show expression princess['image']+" animated "+mood as princessimage
     menu:
-        "You're lying!":
-            pass
+        "[accusation]":
+            jump success
         "You are planning to kill Princess Kathleen!":
             if princess['guilty']:
                 jump success
             else:
                 $ princess['annoyance'] += 50
+        "Never mind.":
+            pass
     jump expression location
+    return
 
 label lastchance:
     centered "Oh no! You haven't identified the assassin!"
     centered "There's one last chance to save Princess Kathleen. Who is guilty?"
-    $ processedcount = 0
+    $ current = 0
     jump dossier
 
 label success:
     hide screen annoyance_meter
     hide screen countdown
+    scene bg dungeon
+    show expression princess['image']+" animated annoyed" as princessimage
+    pause 1
+    show bars with moveinright
     centered "Congratulations! You have captured the villain and saved Princess Kathleen!"
     $ gameover = True
     return
@@ -244,8 +337,9 @@ label fail:
         centered "The coronation fanfare blares. You can delay the dignitaries no longer."
         centered "You watch the princesses walk away, with a sinking feeling that Princess Kathleen is still in danger..."
     elif failure == 'diplomacy':
+        scene bg interview
         show expression princess['image']+" animated annoyed" as princessimage
-        a "I have had quite enough of your impertinence. [princess[kingdom]] is no longer a friend of Romania!"
+        p "I have had quite enough of your impertinence. [princess[kingdom]] is no longer a friend of Romania!"
         hide princessimage
         centered "Uh oh, even if Princess Kathleen survives the coronation, you might have started a war."
     $ gameover = True

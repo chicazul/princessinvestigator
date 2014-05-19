@@ -12,7 +12,8 @@ screen dossier(princess=0):
             xsize 0.4
             xpadding 20
             ypadding 20
-            bottom_margin 40
+            top_margin 50
+            bottom_margin 45
             #$renpy.show("[princess[image]] cropped" at left
             #$ renpy.show(princess['image']+" cropped",[left],"screens",None,4)
             add princess['image']+" cropped" at left
@@ -22,7 +23,8 @@ screen dossier(princess=0):
             yfill 1
             xpadding 20
             ypadding 20
-            bottom_margin 40
+            top_margin 50
+            bottom_margin 45
             has vbox
             if princess:
                 vbox:
@@ -72,7 +74,10 @@ transform alpha_dissolve:
 screen countdown:
     zorder 5
     timer 0.01 repeat True action If(time > 0, true=SetVariable('time', time - 0.01), false=[SetVariable('failure','time'),Hide('countdown'), Jump(timer_jump)])
-    bar value time range timer_range xalign 0.5 yalign 0.9 xmaximum 300 at alpha_dissolve # This is the timer bar.
+    vbox:
+        xalign 1.0
+        label _("Time Remaining")
+        bar value time range timer_range xmaximum 300 at alpha_dissolve # This is the timer bar.
 ##############################################################################
 # Annoyance meter
 #
@@ -81,9 +86,9 @@ screen annoyance_meter:
     zorder 5
     # princesses get annoyed the longer you spend questioning them
     timer 1 repeat True action If(princess['annoyance'] < annoyance_range, true=SetDict(princess,'annoyance', princess['annoyance'] + 0.05), false=[SetVariable('failure','diplomacy'),Hide('annoyance_meter'), Jump(annoyance_jump)])
-    frame:
-        has vbox
-        label _("Annoyance")
+    vbox:
+        xalign 0.02
+        label _(princess['name']+" Annoyance")
         bar value princess['annoyance'] range annoyance_range xmaximum 300 at alpha_dissolve
         
 screen assassination_meter:
@@ -157,7 +162,7 @@ screen choice:
     window:
         style "menu_window"
         xalign 0.5
-        yalign 0.5
+        yalign 0.9
 
         vbox:
             style "menu"
