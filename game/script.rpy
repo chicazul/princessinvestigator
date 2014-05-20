@@ -492,7 +492,7 @@ label accuse(location="dossier",accusation="You're lying!"):
                         jump success
                     else:
                         $ princess['annoyance'] += 50
-                        call interview
+                        jump interview
                 "Never mind.":
                     pass
         "[accusation]" if location == "interview":
