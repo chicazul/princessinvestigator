@@ -265,7 +265,7 @@ label dossier:
         $ princess = princesses[current]
         
         call screen dossier(princess)
-        if (_return == "interview") | (_return == "xray")|(_return == "accuse"):
+        if (_return == "interview") | (_return == "xray"):
             call expression _return
             scene black
             play music "music/Main Princess Theme.mp3"
