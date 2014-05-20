@@ -14,8 +14,6 @@ screen dossier(princess=0):
             ypadding 20
             top_margin 50
             bottom_margin 45
-            #$renpy.show("[princess[image]] cropped" at left
-            #$ renpy.show(princess['image']+" cropped",[left],"screens",None,4)
             add princess['image']+" cropped" at left
         frame:
             xpos 0.4
@@ -34,7 +32,8 @@ screen dossier(princess=0):
                     text "Age: [princess[age]]"
                     text "Shoe Size: [princess[shoesize]]"
                     text "Birthstone: [princess[birthstone]]"
-                    text "Family Colours: [princess[colours]]"
+                    $ colours = ' and '.join(princess['colours']).capitalize()
+                    text "Family Colours: [colours]"
                     text "Favourite Cupcake: [princess[cupcake]]"
         frame:
             yalign 1.0
@@ -42,17 +41,17 @@ screen dossier(princess=0):
             has hbox
             textbutton _("Interview") action Return(value="interview")
             textbutton _("Search Luggage") action Return(value="xray")
-            textbutton _("Accuse") action Return(value="accuse")
             textbutton _("Continue") action Return(value=1)
     
 screen xray:
     add "xray machine"
     frame:
-        yalign 1.0
-        xalign 1.0
-        has hbox
-        textbutton _("Accuse") action Return(value="accuse")
-        textbutton _("Continue") action Return()
+        style_group "xray"
+        xalign 0.5
+        yalign 0.9
+        has vbox
+        textbutton _("Inspect") action Return(value="accuse")
+        textbutton _("Never Mind") action Return()
 
 screen evidence:
     frame:
@@ -74,8 +73,9 @@ transform alpha_dissolve:
 screen countdown:
     zorder 5
     timer 0.01 repeat True action If(time > 0, true=SetVariable('time', time - 0.01), false=[SetVariable('failure','time'),Hide('countdown'), Jump(timer_jump)])
-    vbox:
+    frame:
         xalign 1.0
+        has vbox
         label _("Time Remaining")
         bar value time range timer_range xmaximum 300 at alpha_dissolve # This is the timer bar.
 ##############################################################################
@@ -86,8 +86,9 @@ screen annoyance_meter:
     zorder 5
     # princesses get annoyed the longer you spend questioning them
     timer 1 repeat True action If(princess['annoyance'] < annoyance_range, true=SetDict(princess,'annoyance', princess['annoyance'] + 0.05), false=[SetVariable('failure','diplomacy'),Hide('annoyance_meter'), Jump(annoyance_jump)])
-    vbox:
+    frame:
         xalign 0.02
+        has vbox
         label _(princess['name']+" Annoyance")
         bar value princess['annoyance'] range annoyance_range xmaximum 300 at alpha_dissolve
         

@@ -5,7 +5,7 @@ S''
 p2
 sS'saveDestination'
 p3
-VC:\u005cDocuments and Settings\u005cSara Chicazul\u005cMy Documents\u005cDoki Doki Princess Investigator\u005cprincessinvestigator.tws
+S'C:\\Documents and Settings\\Sara Chicazul\\My Documents\\Doki Doki Princess Investigator\\princessinvestigator.tws'
 p4
 sS'target'
 p5
@@ -229,7 +229,7 @@ tp79
 Rp80
 sbsa(dp81
 g12
-I01
+I00
 sg13
 (lp82
 F262.0
@@ -240,7 +240,7 @@ Tiddler
 p83
 (dp84
 g19
-Vp "What is the meaning of this?"\u000ap "You don't seriously suspect ME of any wrongdoing?"\u000a\u000a"This is just a matter of routine, Your Highness"\u000amenu:\u000a	"Are you on good terms with Princess Kathleen?"\u000a	"Have you ever seen this [evidence] before?"\u000a	"What is your shoe size?"\u000a	"How old are you?"\u000a	"In a formal table setting, which side of the plate would a soup spoon be?"\u000a	"\u000a	"Why did you lie about your shoe size?":\u000a		jump [[lieshoe]]
+Vp "What is the meaning of this?"\u000ap "You don't seriously suspect ME of any wrongdoing?"\u000a\u000a"This is just a matter of routine, Your Highness"\u000amenu:\u000a	"Are you on good terms with Princess Kathleen?"\u000a		w "We respect each other's sovereignty."\u000a		b "I have the utmost affection for dear Kathleen!"\u000a		m "We have met."\u000a		f "She seems a most pleasant individual"\u000a	"Have you ever seen this shoe before?"\u000a		w "Of course not."\u000a		f "No."\u000a		b "Why would you think I had seen it?"\u000a		m "It does not look familiar to me."\u000a		p "Yes."\u000a		p "I believe I have seen Princess [princesses[%(guilt)d]['name'] wearing shoes like that before."\u000a	"What is your shoe size?"\u000a		p "[princess[shoesize]"\u000a		p "[princess[shoesize] - 2]"\u000a	"How old are you?"\u000a		p "[princess[age]"\u000a		p "[princess[age] + 3"\u000a	"In a formal table setting, which side of the plate would a soup spoon be?"\u000a		p "Above it, of course!"\u000a		p "Um...the front side?"\u000a		w "You have got to be kidding me."\u000a		princess['annoyance'] += 10\u000a		b "On the right side, to the right of the outside knife, typically."\u000a		f "My people have not put much research into Romanian dinner customs."\u000a		m "\u000a	"Why are you coming to the coronation?"\u000a		p "I was invited!"\u000a		p "I heard Princess Kathleen's chef is incredible."\u000a		b "To further the pleasant relations between our two countries."\u000a	"Why did you lie about your shoe size?":\u000a		p "It is important for a princess to maintain a dainty image"\u000a		p "I never lie!"\u000a	"Why do you have a weapon in your luggage?"\u000a		p "A girl needs to be able to protect herself."\u000a		p "I don't know what you're talking about."\u000a	
 p85
 sg21
 VInterview first princess
@@ -249,12 +249,12 @@ sg23
 g24
 ((I2014
 I5
-I17
-I21
-I11
-I1
-I5
-I137
+I19
+I22
+I19
+I31
+I0
+I139
 I1
 tp87
 (dp88
