@@ -292,7 +292,7 @@ label intro:
     centered "Coronation Day dawns bright and clear. Everything is in order for the crowning of Princess Kathleen of Romania."
     centered "But wait! A messenger has just arrived, bearing news that one of the visiting princesses is an assassin in disguise! Princess Kathleen's life is in danger!"
     centered "It's up to you, the captain of the guard, to identify the nefarious noble before the ceremony."
-    centered "Careful not to offend an innocent princess though--if you set off a diplomatic incident it may be your head on the chopping block."
+    centered "Careful not to offend an innocent princess though—if you set off a diplomatic incident it may be your head on the chopping block."
 
 label investigate:
     
