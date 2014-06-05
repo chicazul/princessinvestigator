@@ -337,6 +337,8 @@ label interview:
                 p "[princess[shoesize]]"
         "Are you an assassin?":
             call expression "accuse" pass (location="interview")
+            if gameover:
+                jump ending
     jump interview2
     
 label interviewlieshoe:
@@ -346,6 +348,8 @@ label interviewlieshoe:
             menu:
                 "Accuse of lying":
                     call expression "accuse" pass (location="interview")
+                    if gameover:
+                        jump ending
                 "Never mind.":
                     jump interview2
         "Thank you for your time":
@@ -395,6 +399,8 @@ label interviewend:
             $ princess['annoyance'] += 10
         "You're the assassin!":
             call expression "accuse" pass (location="interview")
+            if gameover:
+                jump ending
     jump dossier
     
 label xray:
@@ -434,6 +440,8 @@ label xray:
     scene onlayer xray
     if _return == "accuse":
         call expression "accuse" pass (location="xray")
+        if gameover:
+            jump ending
     return
 
 label accuse(location="dossier",accusation="You're lying!"):
