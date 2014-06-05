@@ -289,6 +289,8 @@ init -1 python hide:
     
     config.layers = [ 'hidden', 'master', 'xray', 'transient', 'screens', 'overlay' ]
 
+    ## Turn off dialog rollback feature
+    config.rollback_enabled = False
 
 ## This section contains information about how to build your project into
 ## distribution files.
